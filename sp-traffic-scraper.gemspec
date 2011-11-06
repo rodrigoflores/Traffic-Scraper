@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["mail@rodrigoflores.org"]
   s.homepage    = ""
   s.summary     = %q{A gem to retrieve data from CET SP website}
-  s.description = %q{This gem parses the traffic engineering company and retrieves traffic information for the city of São Paulo Brazil}
+  s.description = %q{This gem parses the traffic engineering company and retrieves traffic information for the city of Sao Paulo Brazil}
 
   s.rubyforge_project = "sp-traffic-scraper"
 
