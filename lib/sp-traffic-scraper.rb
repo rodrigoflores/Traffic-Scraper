@@ -11,10 +11,6 @@ module Traffic
       # Returns the amount of overall traffic we currently have
       #
       # @return [Integer] the amount of traffic
-      def reverse(contents)
-        contents = contents.read if respond_to? :read
-        contents.reverse
-      end
       def overall_traffic
         page = Nokogiri::HTML(open(TRAFFIC_PAGE_URL))
         page.css("#lentidao b").inner_html.to_i
