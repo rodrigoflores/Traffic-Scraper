@@ -7,6 +7,14 @@ module Traffic
     class << self
       TRAFFIC_PAGE_URL = "http://cetsp1.cetsp.com.br/monitransmapa/agora/"
 
+
+      # Returns the amount of overall traffic we currently have
+      #
+      # @return [Integer] the amount of traffic
+      def reverse(contents)
+        contents = contents.read if respond_to? :read
+        contents.reverse
+      end
       def overall_traffic
         page = Nokogiri::HTML(open(TRAFFIC_PAGE_URL))
         page.css("#lentidao b").inner_html.to_i
@@ -14,6 +22,9 @@ module Traffic
         raise CouldNotRetrievePageError
       end
 
+      # Returns the amount of overall traffic we currently have
+      #
+      # @return [Hash] containing all the traffic information for all zones
       def zone_traffic
         page = Nokogiri::HTML(open(TRAFFIC_PAGE_URL))
 
