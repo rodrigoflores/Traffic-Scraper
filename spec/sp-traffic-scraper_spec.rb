@@ -30,5 +30,13 @@ describe Traffic::Scraper do
         :downtown => 22
       }
     end
+
+    it "raises a CouldNotRetrievePageError when something goes wrong" do
+      Traffic::Scraper.should_receive(:open).with("http://cetsp1.cetsp.com.br/monitransmapa/agora/").and_raise RuntimeError
+
+      expect {
+        Traffic::Scraper.zone_traffic
+      }.to raise_error(CouldNotRetrievePageError)
+    end
   end
 end

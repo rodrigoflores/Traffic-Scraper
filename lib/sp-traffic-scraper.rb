@@ -31,6 +31,8 @@ module Traffic
         end
 
         result_hash
+      rescue
+        raise CouldNotRetrievePageError
       end
     end
   end
