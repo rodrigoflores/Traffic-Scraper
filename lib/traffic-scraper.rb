@@ -1,12 +1,11 @@
 require 'open-uri'
 require 'nokogiri'
-require "sp-traffic-scraper/version"
+require "traffic-scraper/version"
 
 module Traffic
   class Scraper
     class << self
       TRAFFIC_PAGE_URL = "http://cetsp1.cetsp.com.br/monitransmapa/agora/"
-
 
       # Returns the amount of overall traffic we currently have
       #

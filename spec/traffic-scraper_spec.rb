@@ -1,4 +1,4 @@
-require 'sp-traffic-scraper'
+require 'traffic-scraper'
 require 'fakeweb'
 
 describe Traffic::Scraper do
