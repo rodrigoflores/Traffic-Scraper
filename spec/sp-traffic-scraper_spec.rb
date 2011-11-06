@@ -18,4 +18,17 @@ describe Traffic::Scraper do
     end
   end
 
+  describe ".zone_traffic" do
+    it 'returns a hash with the traffic on all the zones' do
+      FakeWeb.register_uri(:get, "http://cetsp1.cetsp.com.br/monitransmapa/agora/", :body => File.read("spec/fixtures/traffic-info-page.html"))
+
+      Traffic::Scraper.zone_traffic.should == {
+        :north => 25,
+        :south => 34,
+        :east => 444,
+        :west => 32,
+        :downtown => 22
+      }
+    end
+  end
 end

@@ -13,6 +13,25 @@ module Traffic
       rescue
         raise CouldNotRetrievePageError
       end
+
+      def zone_traffic
+        page = Nokogiri::HTML(open(TRAFFIC_PAGE_URL))
+
+        result_hash = {}
+
+        { "Norte" => :north ,
+          "Sul" => :south,
+          "Leste" => :east,
+          "Oeste" => :west,
+          "Centro" => :downtown
+        }.each do |zone, zone_translation|
+          page.css("##{zone}Lentidao").inner_html =~ /^(\d+)\s*km$/
+
+          result_hash[zone_translation] = $1.to_i
+        end
+
+        result_hash
+      end
     end
   end
 end
