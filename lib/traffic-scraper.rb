@@ -5,14 +5,13 @@ require "traffic-scraper/version"
 module Traffic
   class Scraper
     class << self
-      TRAFFIC_PAGE_URL = "http://cetsp1.cetsp.com.br/monitransmapa/agora/"
+      TRAFFIC_PAGE_URL = "http://www.cetsp.com.br/"
 
       # Returns the amount of overall traffic we currently have
       #
       # @return [Integer] the amount of traffic
       def overall_traffic
-        page = Nokogiri::HTML(open(TRAFFIC_PAGE_URL))
-        page.css("#lentidao b").inner_html.to_i
+        zone_traffic.values.inject(:+)
       rescue
         raise CouldNotRetrievePageError
       end
@@ -25,15 +24,16 @@ module Traffic
 
         result_hash = {}
 
-        { "Norte" => :north ,
-          "Sul" => :south,
-          "Leste" => :east,
-          "Oeste" => :west,
-          "Centro" => :downtown
+        { "norte" => :north ,
+          "sul" => :south,
+          "leste" => :east,
+          "oeste" => :west,
+          "centro" => :downtown
         }.each do |zone, zone_translation|
-          page.css("##{zone}Lentidao").inner_html =~ /^(\d+)\s*km$/
+          match = /^(\d+)\s*km$/.match(page.css(".info.#{zone} h4").inner_html)
 
-          result_hash[zone_translation] = $1.to_i
+          raise CouldNotRetrievePageError unless match
+          result_hash[zone_translation] = match[1].to_i
         end
 
         result_hash

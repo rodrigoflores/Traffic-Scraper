@@ -4,13 +4,13 @@ require 'fakeweb'
 describe Traffic::Scraper do
   describe ".overall_traffic" do
     it "returns the overall traffic when success" do
-      FakeWeb.register_uri(:get, "http://cetsp1.cetsp.com.br/monitransmapa/agora/", :body => File.read("spec/fixtures/traffic-info-page.html"))
+      FakeWeb.register_uri(:get, "http://www.cetsp.com.br/", :body => File.read("spec/fixtures/traffic-info-page.html"))
 
-      Traffic::Scraper.overall_traffic.should == 322
+      Traffic::Scraper.overall_traffic.should == 2
     end
 
     it "raises a CouldNotRetrievePageError when something goes wrong" do
-      Traffic::Scraper.should_receive(:open).with("http://cetsp1.cetsp.com.br/monitransmapa/agora/").and_raise RuntimeError
+      Traffic::Scraper.should_receive(:open).with("http://www.cetsp.com.br/").and_raise RuntimeError
 
       expect {
         Traffic::Scraper.overall_traffic
@@ -20,19 +20,19 @@ describe Traffic::Scraper do
 
   describe ".zone_traffic" do
     it 'returns a hash with the traffic on all the zones' do
-      FakeWeb.register_uri(:get, "http://cetsp1.cetsp.com.br/monitransmapa/agora/", :body => File.read("spec/fixtures/traffic-info-page.html"))
+      FakeWeb.register_uri(:get, "http://www.cetsp.com.br/", :body => File.read("spec/fixtures/traffic-info-page.html"))
 
       Traffic::Scraper.zone_traffic.should == {
-        :north => 25,
-        :south => 34,
-        :east => 444,
-        :west => 32,
-        :downtown => 22
+        :north => 0,
+        :south => 2,
+        :east => 0,
+        :west => 0,
+        :downtown => 0
       }
     end
 
     it "raises a CouldNotRetrievePageError when something goes wrong" do
-      Traffic::Scraper.should_receive(:open).with("http://cetsp1.cetsp.com.br/monitransmapa/agora/").and_raise RuntimeError
+      Traffic::Scraper.should_receive(:open).with("http://www.cetsp.com.br/").and_raise RuntimeError
 
       expect {
         Traffic::Scraper.zone_traffic
